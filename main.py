@@ -46,7 +46,10 @@ def configureSelenium():
     config['password'] = (base64.b64decode(password_decode.encode("ascii"))).decode()
 
     print("Starting chromedriver...")
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--disable-extensions')
+    chrome_options.add_argument('--headless=new')
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     driver.maximize_window()
     driver.get("https://replit.com/login")
     print("Choosing Github Login Strategy")
