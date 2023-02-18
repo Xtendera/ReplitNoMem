@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
 from art import tprint
 import time
 import base64
@@ -19,6 +20,7 @@ def configureSelenium():
         time.sleep(1)
         username = input('Username: ')
         password = input('Password: ')
+        url = input('Replit URL: ')
         username_bytes = username.encode('ascii')
         password_bytes = password.encode('ascii')
 
@@ -28,7 +30,8 @@ def configureSelenium():
         password_base64 = password_base64_bytes.decode('ascii')
         configObject = {
             'username': username_base64,
-            'password': password_base64
+            'password': password_base64,
+            'replitURL': url
         }
         configWrite = open('./config.json', 'w')
         configWrite.write(json.dumps(configObject))
@@ -45,8 +48,25 @@ def configureSelenium():
     print("Starting chromedriver...")
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     driver.get("https://replit.com/login")
-    print("Choosing Github Login Strategy...")
+    print("Choosing Github Login Strategy")
     login(driver, config)
+    time.sleep(1)
+    print('Locating/creating notouch.txt')
+    driver.get(url=config['replitURL'])
+    time.sleep(2)
+    notif_deny_btn = driver.find_element(by=By.XPATH, value='/html/body/reach-portal/div[2]/div/div/div['
+                                                            '2]/div/div/div/div/div/button[1]')
+    notif_deny_btn.click()
+    time.sleep(0.7)
+    for file in driver.find_elements(by=By.XPATH, value='//*[@id="sidebar-section-content-files"]/div/div/div/div/div'
+                                                        '/div/div/*'):
+        if file.get_attribute('title'):
+            print(file.get_attribute('title'))
+        else:
+            file_name = file.find_element(by=By.XPATH, value='.//div/div[1]/div[2]/span')
+            print(file_name.text)
+
+    time.sleep(500)
 
 
 if __name__ == '__main__':

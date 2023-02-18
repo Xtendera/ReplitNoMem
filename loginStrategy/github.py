@@ -20,4 +20,10 @@ def login(driver, config):
     time.sleep(1)
     password_field.send_keys(config['password'])
     time.sleep(1)
+    signin_btn = driver.find_element(by=By.XPATH, value='//*[@id="login"]/div[3]/form/div/input[11]')
+    signin_btn.click()
+    time.sleep(2)
+    driver.switch_to.window(original_tab)
+    print('Successfully logged in')
+
 
