@@ -12,7 +12,7 @@ from loginStrategy.github import login
 
 def configureSelenium():
     tprint("ReplitNoMem")
-    print("Version 0.1\n")
+    print("Version 1.0\n")
     time.sleep(2)
     path = Path('./config.json')
     if not path.is_file():
@@ -47,26 +47,44 @@ def configureSelenium():
 
     print("Starting chromedriver...")
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    driver.maximize_window()
     driver.get("https://replit.com/login")
     print("Choosing Github Login Strategy")
     login(driver, config)
     time.sleep(1)
-    print('Locating/creating notouch.txt')
+    print('Locating notouch.txt')
     driver.get(url=config['replitURL'])
     time.sleep(2)
     notif_deny_btn = driver.find_element(by=By.XPATH, value='/html/body/reach-portal/div[2]/div/div/div['
                                                             '2]/div/div/div/div/div/button[1]')
     notif_deny_btn.click()
     time.sleep(0.7)
+    found_file = False
     for file in driver.find_elements(by=By.XPATH, value='//*[@id="sidebar-section-content-files"]/div/div/div/div/div'
                                                         '/div/div/*'):
         if file.get_attribute('title'):
-            print(file.get_attribute('title'))
+            continue
         else:
-            file_name = file.find_element(by=By.XPATH, value='.//div/div[1]/div[2]/span')
-            print(file_name.text)
+            file_name = file.find_element(by=By.XPATH, value='.//div/div[1]/div[2]/span').text
+            if file_name == 'notouch.txt':
+                file.click()
+                found_file = True
 
-    time.sleep(500)
+    if not found_file:
+        raise Exception("notouch.txt was not found in the replit")
+
+    time.sleep(1)
+    print('Inputting random values...')
+    random_text = ''
+    text_field = driver.find_element(by=By.XPATH, value='//*[@id="main-content"]/div[2]/div/div[9]/div/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div')
+    while True:
+        if len(random_text) > 54:
+            random_text = ''
+        else:
+            random_text += 'donttouch'
+
+        driver.execute_script("arguments[0].innerText = '{}'".format(random_text), text_field, random_text)
+        time.sleep(0.7)
 
 
 if __name__ == '__main__':

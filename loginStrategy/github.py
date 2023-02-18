@@ -23,5 +23,9 @@ def login(driver, config):
     signin_btn = driver.find_element(by=By.XPATH, value='//*[@id="login"]/div[3]/form/div/input[11]')
     signin_btn.click()
     time.sleep(2)
+    reauth_btn = driver.find_elements(by=By.XPATH, value='//*[@id="js-oauth-authorize-btn"]')
+    if len(reauth_btn) > 0:
+        reauth_btn[0].click()
+        time.sleep(1.4)
     driver.switch_to.window(original_tab)
     print('Successfully logged in')
