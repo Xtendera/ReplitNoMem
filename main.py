@@ -28,22 +28,22 @@ def configureSelenium():
         password_base64_bytes = base64.b64encode(password_bytes)
         username_base64 = username_base64_bytes.decode('ascii')
         password_base64 = password_base64_bytes.decode('ascii')
-        configObject = {
+        config_object = {
             'username': username_base64,
             'password': password_base64,
             'replitURL': url
         }
-        configWrite = open('./config.json', 'w')
-        configWrite.write(json.dumps(configObject))
-        configWrite.close()
+        config_write = open('./config.json', 'w')
+        config_write.write(json.dumps(config_object))
+        config_write.close()
         print('Written config')
         time.sleep(1)
 
     config = json.loads(open('./config.json', 'r').read())
-    username_todecode = config['username']
-    password_todecode = config['password']
-    config['username'] = (base64.b64decode(username_todecode.encode("ascii"))).decode()
-    config['password'] = (base64.b64decode(password_todecode.encode("ascii"))).decode()
+    username_decode = config['username']
+    password_decode = config['password']
+    config['username'] = (base64.b64decode(username_decode.encode("ascii"))).decode()
+    config['password'] = (base64.b64decode(password_decode.encode("ascii"))).decode()
 
     print("Starting chromedriver...")
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))

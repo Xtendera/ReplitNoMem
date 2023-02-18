@@ -25,5 +25,3 @@ def login(driver, config):
     time.sleep(2)
     driver.switch_to.window(original_tab)
     print('Successfully logged in')
-
-
