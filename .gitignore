@@ -70,6 +70,8 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+config.json
+
 # Editor-based Rest Client
 **/.idea/httpRequests
 
