@@ -58,9 +58,10 @@ def configureSelenium():
     print('Locating notouch.txt')
     driver.get(url=config['replitURL'])
     time.sleep(2)
-    notif_deny_btn = driver.find_element(by=By.XPATH, value='/html/body/reach-portal/div[2]/div/div/div['
+    notif_deny_btn = driver.find_elements(by=By.XPATH, value='/html/body/reach-portal/div[2]/div/div/div['
                                                             '2]/div/div/div/div/div/button[1]')
-    notif_deny_btn.click()
+    if len(notif_deny_btn) > 0:
+        notif_deny_btn[0].click()
     time.sleep(0.7)
     found_file = False
     for file in driver.find_elements(by=By.XPATH, value='//*[@id="sidebar-section-content-files"]/div/div/div/div/div'
