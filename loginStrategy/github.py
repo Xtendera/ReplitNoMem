@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 
 def login(driver, config):
     original_tab = driver.current_window_handle
-    login_btn = driver.find_element(by=By.XPATH, value='//*[@id="__next"]/div/div[2]/main/div/div[7]/div/div[2]/button')
+    login_btn = driver.find_element(by=By.XPATH, value='//*[@id="__next"]/div/div[2]/main/div/div/div[8]/div/div[2]/button')
     login_btn.click()
     handlers = driver.window_handles
     for handle in handlers:
