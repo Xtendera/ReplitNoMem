@@ -81,15 +81,17 @@ def configureSelenium():
     print('Inputting random values...')
     random_text = ''
     text_field = driver.find_element(by=By.XPATH, value='//*[@id="main-content"]/div[2]/div/div[9]/div/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div')
-    while True:
+    x = 0
+    while x < 100:
         if len(random_text) > 54:
             random_text = ''
         else:
             random_text += 'donttouch'
 
         driver.execute_script("arguments[0].innerText = '{}'".format(random_text), text_field, random_text)
+        x += 1
         time.sleep(0.7)
-
+    configureSelenium()
 
 if __name__ == '__main__':
     configureSelenium()
