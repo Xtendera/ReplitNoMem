@@ -12,7 +12,7 @@ from loginStrategy.github import login
 
 def configureSelenium():
     tprint("ReplitNoMem")
-    print("Version 1.0\n")
+    print("Version 1.2\n")
     time.sleep(2)
     path = Path('./config.json')
     if not path.is_file():
@@ -91,6 +91,7 @@ def configureSelenium():
         driver.execute_script("arguments[0].innerText = '{}'".format(random_text), text_field, random_text)
         x += 1
         time.sleep(0.7)
+    driver.quit()
     configureSelenium()
 
 if __name__ == '__main__':
